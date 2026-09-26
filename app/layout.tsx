@@ -7,14 +7,14 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: `${profile.name} — ${profile.role}`,
-  description: profile.tagline,
+  title: profile.name,
+  description: profile.description,
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body className="nebula min-h-svh">{children}</body>
+      <body className="min-h-svh">{children}</body>
     </html>
   );
 }

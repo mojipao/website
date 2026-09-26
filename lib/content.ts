@@ -1,144 +1,167 @@
+import type { LogoAsset } from "@/components/Logo";
+
 /**
- * All site copy lives here. Replace the placeholders with your own details;
- * the components only read from this file.
+ * All site copy lives here; the components only read from this file.
+ * Logo images live in public/logos/. Entries without a logo show a lettered tile.
  */
 
+const logos = {
+  aws: { src: "/logos/aws.png", onWhite: true },
+  expedia: { src: "/logos/expedia.png" },
+  agrilife: { src: "/logos/agrilife.png" },
+  clubcentric: { src: "/logos/clubcentric.png" },
+  hsl: { src: "/logos/hsl.webp", onWhite: true },
+  imuslims: { src: "/logos/imuslims.png" },
+  uw: { src: "/logos/uw.webp", onWhite: true },
+} satisfies Record<string, LogoAsset>;
+
 export const profile = {
-  name: "Your Name",
-  initials: "YN",
-  role: "Software Engineer",
-  location: "City, State",
-  tagline: "Building thoughtful software with a focus on clarity, craft, and the people who use it.",
-  bio: [
-    "I'm a placeholder bio. I love turning complex problems into simple, well-made experiences, and my work sits where engineering meets design.",
-    "I'm happiest when I'm learning something I don't understand yet. Outside of work you'll find me reading, building side projects, and chasing the next good idea.",
-  ],
-  facts: [
-    { label: "Based in", value: "City, State" },
-    { label: "Focus", value: "Full-stack & product engineering" },
-    { label: "Currently", value: "Open to new opportunities" },
-  ],
-  email: "you@example.com",
-  resumeUrl: "#",
+  name: "Mohriz Murad",
+  school: "University of Washington",
+  description: "Informatics at the University of Washington. Software Development Engineer Intern at AWS.",
+  /** The About section reveals this word by word, so keep it to two or three sentences. */
+  statement:
+    "I'm an Informatics student at the University of Washington, minoring in Applied Mathematics. I'm drawn to the unglamorous parts of software: tracing a slow request through a chain of services, or teaching a model when to say it doesn't know. Right now I'm on EC2 Edge Frontier at AWS, building an LLM agent that diagnoses faults on on-prem racks.",
+  email: "mohrizmurad@gmail.com",
 };
 
 export const links = [
-  { label: "LinkedIn", href: "https://linkedin.com/in/your-handle" },
-  { label: "GitHub", href: "https://github.com/your-handle" },
-  { label: "Email", href: `mailto:${profile.email}` },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/mohriz-murad" },
+  { label: "GitHub", href: "https://github.com/mojipao" },
 ];
 
 export interface Experience {
   company: string;
   role: string;
   period: string;
-  location: string;
   summary: string;
-  highlights: string[];
-  tags: string[];
+  logo?: LogoAsset;
 }
 
 export const experience: Experience[] = [
   {
-    company: "Company One",
-    role: "Senior Role Title",
-    period: "2024 — Present",
-    location: "Remote",
-    summary: "One line on what the team does and what you own there.",
-    highlights: [
-      "Led a placeholder initiative that improved a key metric by X%.",
-      "Designed and shipped a system used by N teams across the company.",
-      "Mentored engineers and helped shape the team's technical direction.",
-    ],
-    tags: ["TypeScript", "React", "Node.js", "PostgreSQL"],
+    company: "Amazon Web Services",
+    logo: logos.aws,
+    role: "Software Development Engineer Intern",
+    period: "Sep 2026 — Now",
+    summary:
+      "On EC2 Edge Frontier, building an autonomous LLM agent that investigates faults on on-prem racks and finds their root cause.",
   },
   {
-    company: "Company Two",
-    role: "Role Title",
-    period: "2022 — 2024",
-    location: "City, State",
-    summary: "One line on the product and your part in it.",
-    highlights: [
-      "Built a placeholder feature end to end, from design through launch.",
-      "Reduced build or response times by X% through targeted optimization.",
-      "Collaborated closely with design and product on roadmap and scope.",
-    ],
-    tags: ["Python", "Django", "AWS"],
+    company: "Expedia Group",
+    logo: logos.expedia,
+    role: "Software Development Engineer Intern",
+    period: "Jun — Aug 2026",
+    summary: "On Lodging Reservations, cut latency by 48% on a booking retrieval service handling ~19.4M reads a day.",
   },
   {
-    company: "Company Three",
-    role: "Junior Role Title",
-    period: "2020 — 2022",
-    location: "City, State",
-    summary: "Where it started.",
-    highlights: [
-      "Shipped features across a placeholder web application.",
-      "Wrote tests, fixed bugs, and learned how real software gets made.",
-    ],
-    tags: ["JavaScript", "Vue", "MySQL"],
+    company: "Texas A&M AgriLife",
+    logo: logos.agrilife,
+    role: "Machine Learning Research Intern",
+    period: "Mar 2025 — Jan 2026",
+    summary:
+      "Built a reinforcement learning system for precision irrigation in cotton, accepted as a first-author abstract at AGU25.",
+  },
+  {
+    company: "ClubCentric",
+    logo: logos.clubcentric,
+    role: "Software Engineer",
+    period: "Sep 2024 — Jun 2025",
+    summary: "Built the data pipelines and document search behind a platform for student organizations.",
+  },
+];
+
+export interface Activity {
+  name: string;
+  role: string;
+  team?: string;
+  logo?: LogoAsset;
+}
+
+export const activities: Activity[] = [
+  {
+    name: "Husky Satellite Lab",
+    role: "Software Engineer",
+    team: "Flight Software",
+    logo: logos.hsl,
+  },
+  {
+    name: "iMuslims",
+    role: "Social Events Coordinator",
+    logo: logos.imuslims,
   },
 ];
 
 export interface Project {
   name: string;
   description: string;
-  tags: string[];
-  href: string;
+  stack: string[];
+  href?: string;
   year: string;
-  featured?: boolean;
 }
 
 export const projects: Project[] = [
   {
-    name: "Project Aurora",
+    name: "Precision Irrigation with RL",
     description:
-      "A placeholder flagship project. Short description of what it does, the problem it solves, and what makes it interesting.",
-    tags: ["TypeScript", "React", "Design systems"],
-    href: "#",
+      "An end-to-end reinforcement learning system that combines UAV imagery, sensor data, and physics-guided crop models to make plot-level irrigation decisions. Presented at AGU25 in New Orleans.",
+    stack: ["Python", "PPO", "Gymnasium", "UAV imagery"],
     year: "2025",
-    featured: true,
   },
   {
-    name: "Project Kepler",
-    description: "Something you built to scratch an itch. What it does and who it's for.",
-    tags: ["Python", "FastAPI", "Data"],
-    href: "#",
-    year: "2024",
+    name: "SPARCS Healthcare Forecasting",
+    description:
+      "Gradient-boosted models forecasting hospital discharges, costs, and charges across New York State, with SHAP interpretability and R² up to 0.97. Top 5 of 300+ teams at the UW iSchool Datathon.",
+    stack: ["Python", "scikit-learn", "SHAP"],
+    href: "https://github.com/mojipao/SPARCS-Healthcare-Data-Analysis-and-Prediction",
+    year: "2025",
   },
   {
-    name: "Project Halo",
-    description: "A tool, a library, or an experiment. One or two sentences.",
-    tags: ["Go", "CLI"],
-    href: "#",
-    year: "2024",
-  },
-  {
-    name: "Project Orbit",
-    description: "A collaboration, a hackathon win, or an open-source contribution.",
-    tags: ["Next.js", "Open source"],
-    href: "#",
-    year: "2023",
+    name: "Reddit Topic Modeling",
+    description:
+      "An NLP pipeline over 8,000+ Reddit posts comparing TF-IDF + K-Means against BERTopic and Word2Vec + HDBSCAN, surfacing 10+ discussion themes across three languages.",
+    stack: ["Python", "spaCy", "BERTopic"],
+    year: "2025",
   },
 ];
 
-export const skills: { group: string; items: string[] }[] = [
-  { group: "Languages", items: ["TypeScript", "Python", "Go", "SQL"] },
-  { group: "Frontend", items: ["React", "Next.js", "Tailwind CSS", "Accessibility"] },
-  { group: "Backend", items: ["Node.js", "PostgreSQL", "Redis", "REST & GraphQL"] },
-  { group: "Tooling", items: ["AWS", "Docker", "CI/CD", "Observability"] },
+export const education = {
+  school: "University of Washington",
+  department: "Information School",
+  logo: logos.uw,
+  period: "September 2024 — June 2028",
+  degrees: [
+    { label: "Major", value: "B.S. Informatics" },
+    { label: "Minor", value: "Applied Mathematics" },
+  ],
+  honors: "3.9 GPA · Dean's List every quarter",
+};
+
+export const skills = [
+  "Python",
+  "Java",
+  "Kotlin",
+  "TypeScript",
+  "C++",
+  "SQL",
+  "React",
+  "Next.js",
+  "Spring Boot",
+  "PyTorch",
+  "scikit-learn",
+  "AWS",
+  "Docker",
+  "Kubernetes",
+  "PostgreSQL",
 ];
 
-export const education = [
+export const recognition: { title: string; detail: string; period: string; href?: string }[] = [
   {
-    school: "University Name",
-    degree: "B.S. in Computer Science",
-    period: "2016 — 2020",
-    note: "Placeholder honors, thesis, or a favorite course.",
+    title: "First-author abstract",
+    detail: "AGU25",
+    period: "2025",
+    href: "https://studio.m-anage.com/agu/agu25/meetingapp.cgi/Paper/1849541",
   },
-];
-
-export const recognition = [
-  { title: "Placeholder Award", by: "Organization", year: "2024" },
-  { title: "Speaker, Placeholder Conference", by: "Talk title goes here", year: "2023" },
-  { title: "Certification Name", by: "Issuing body", year: "2022" },
+  { title: "Special Mention, Top 5", detail: "DubsTech Datathon", period: "2025" },
+  { title: "4th Place, Video Game Design", detail: "TSA Nationals", period: "2024" },
 ];

@@ -18,15 +18,13 @@ export default function Reveal({ children, className = "", delay = 0, as: Tag = 
     const el = ref.current;
     if (!el) return;
     const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) {
-            el.classList.add("is-visible");
-            io.disconnect();
-          }
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          el.classList.add("is-visible");
+          io.disconnect();
         }
       },
-      { rootMargin: "0px 0px -10% 0px", threshold: 0.1 },
+      { rootMargin: "0px 0px -12% 0px" },
     );
     io.observe(el);
     return () => io.disconnect();

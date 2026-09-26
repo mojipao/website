@@ -1,51 +1,88 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import Label from "@/components/Label";
 import Reveal from "@/components/Reveal";
-import Section from "@/components/Section";
 import { projects } from "@/lib/content";
-import { ArrowIcon } from "./Hero";
+import { useMediaQuery, useScrollProgress } from "@/lib/useScrollProgress";
+
+const PIN_QUERY = "(min-width: 768px) and (prefers-reduced-motion: no-preference)";
 
 export default function Projects() {
+  const section = useRef<HTMLElement>(null);
+  const track = useRef<HTMLDivElement>(null);
+  const pinned = useMediaQuery(PIN_QUERY);
+  useScrollProgress(section);
+
+  useEffect(() => {
+    const el = section.current;
+    const row = track.current;
+    if (!el || !row) return;
+    if (!pinned) {
+      el.style.removeProperty("--dist");
+      el.style.removeProperty("height");
+      return;
+    }
+    const measure = () => {
+      const dist = Math.max(row.scrollWidth - window.innerWidth, 0);
+      el.style.setProperty("--dist", `${dist}px`);
+      el.style.height = `${dist + window.innerHeight * 1.15}px`;
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(row);
+    window.addEventListener("resize", measure);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", measure);
+    };
+  }, [pinned]);
+
   return (
-    <Section
-      id="projects"
-      index="03"
-      eyebrow="Projects"
-      title="Things I've made."
-      intro="A few selected pieces of work. Each one taught me something."
-    >
-      <div className="grid gap-4 sm:grid-cols-2">
-        {projects.map((project, i) => (
-          <Reveal key={project.name} delay={i * 70} className={project.featured ? "sm:col-span-2" : ""}>
-            <a
-              href={project.href}
-              className={`card group flex h-full flex-col rounded-2xl p-6 hover:-translate-y-0.5 sm:p-7 ${
-                project.featured ? "lg:grid lg:grid-cols-[1fr_1.2fr] lg:gap-10" : ""
-              }`}
-            >
-              <div>
-                <div className="flex items-center justify-between font-mono text-xs text-dust">
-                  <span>{project.year}</span>
-                  <span className="inline-flex size-7 items-center justify-center rounded-full border border-white/10 text-star transition-colors group-hover:border-nebula-indigo/50 group-hover:bg-nebula-indigo/15">
-                    <ArrowIcon />
-                  </span>
-                </div>
-                <h3 className={`mt-6 font-semibold tracking-tight ${project.featured ? "text-2xl sm:text-3xl" : "text-xl"}`}>
-                  {project.name}
-                </h3>
-              </div>
-              <div className={project.featured ? "lg:flex lg:flex-col lg:justify-end" : ""}>
-                <p className="mt-3 leading-relaxed text-dust">{project.description}</p>
-                <div className="mt-6 flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <span key={tag} className="chip rounded-full px-2.5 py-1 font-mono text-[11px] text-dust">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </a>
-          </Reveal>
-        ))}
+    <section ref={section} id="projects" className="scene relative">
+      <div className={pinned ? "sticky top-0 flex h-svh flex-col justify-center overflow-hidden" : "py-28"}>
+        <div className="mx-auto mb-12 w-full max-w-5xl px-6">
+          <Label>Projects</Label>
+          <h2 className="text-4xl font-semibold tracking-[-0.03em] sm:text-5xl">Things I&apos;ve made.</h2>
+        </div>
+
+        <div
+          ref={track}
+          className={
+            pinned
+              ? "projects-track flex w-max gap-5 pr-[10vw] pl-[max(1.5rem,calc((100vw-64rem)/2+1.5rem))]"
+              : "mx-auto grid max-w-5xl gap-4 px-6"
+          }
+        >
+          {projects.map((project, i) => {
+            const Card = project.href ? "a" : "div";
+            return (
+              <Reveal key={project.name} delay={pinned ? i * 90 : 0}>
+                <Card
+                  {...(project.href ? { href: project.href, target: "_blank", rel: "noreferrer" } : {})}
+                  className={`group flex flex-col justify-between rounded-3xl border border-white/8 bg-surface p-7 transition-colors duration-500 ${
+                    project.href ? "hover:border-white/20" : ""
+                  } ${pinned ? "h-[min(28rem,62vh)] w-[min(26rem,36vw)]" : "min-h-56"}`}
+                >
+                  <div className="flex items-center justify-between font-mono text-xs text-faint">
+                    <span>{project.year}</span>
+                    {project.href && (
+                      <span className="transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                        ↗
+                      </span>
+                    )}
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-medium tracking-tight">{project.name}</h3>
+                    <p className="mt-3 leading-relaxed text-dust">{project.description}</p>
+                    <p className="mt-6 font-mono text-xs text-faint">{project.stack.join("  ·  ")}</p>
+                  </div>
+                </Card>
+              </Reveal>
+            );
+          })}
+        </div>
       </div>
-    </Section>
+    </section>
   );
 }
