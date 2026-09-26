@@ -1,42 +1,43 @@
-import { awards, education } from "@/lib/content";
-import FadeUp from "@/components/ui/FadeUp";
-import ZoneLabel from "@/components/ui/ZoneLabel";
+import Reveal from "@/components/Reveal";
+import Section from "@/components/Section";
+import { education, recognition } from "@/lib/content";
 
 export default function Education() {
   return (
-    <section id="education" data-zone className="relative px-6 py-[28vh] sm:px-12">
-      <div className="mx-auto max-w-5xl">
-        <FadeUp>
-          <ZoneLabel zone="abyss" className="mb-8" />
-          <h2 className="text-glow text-[clamp(2.75rem,8vw,7rem)] font-semibold leading-[0.95] tracking-[-0.05em] text-white">
-            Foundations
-            <span className="text-cyan-200">.</span>
-          </h2>
-        </FadeUp>
-
-        <FadeUp stagger className="mt-20 space-y-6">
-          {education.map((e) => (
-            <div key={e.school} className="glass-dark rounded-[2rem] p-8 sm:p-12">
-              <p className="text-sm font-medium text-cyan-100/60">{e.period}</p>
-              <h3 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-5xl">{e.school}</h3>
-              <p className="mt-3 text-xl font-medium text-sky-200">{e.degree}</p>
-              {e.detail && <p className="mt-4 max-w-2xl text-base leading-relaxed text-white/60">{e.detail}</p>}
-            </div>
-          ))}
-        </FadeUp>
-
-        <FadeUp className="mt-24">
-          <h3 className="text-sm font-medium uppercase tracking-[0.28em] text-white/50">Awards & recognition</h3>
-        </FadeUp>
-        <FadeUp stagger className="mt-6 divide-y divide-white/10 border-y border-white/10">
-          {awards.map((a) => (
-            <div key={a.title} className="flex flex-col justify-between gap-1 py-6 sm:flex-row sm:items-baseline">
-              <p className="text-xl font-semibold tracking-tight text-white sm:text-2xl">{a.title}</p>
-              <p className="text-sm text-white/50 sm:text-base">{a.detail}</p>
-            </div>
-          ))}
-        </FadeUp>
+    <Section id="education" index="05" eyebrow="Education & recognition" title="Background.">
+      <div className="grid gap-4 lg:grid-cols-2">
+        <Reveal>
+          <div className="card h-full rounded-2xl p-6 sm:p-7">
+            <h3 className="font-mono text-xs tracking-[0.2em] text-dust uppercase">Education</h3>
+            <ul className="mt-6 space-y-6">
+              {education.map((e) => (
+                <li key={e.school}>
+                  <div className="font-mono text-xs text-dust">{e.period}</div>
+                  <div className="mt-1 text-lg font-semibold tracking-tight">{e.school}</div>
+                  <div className="text-star/85">{e.degree}</div>
+                  <p className="mt-2 text-sm text-dust">{e.note}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Reveal>
+        <Reveal delay={100}>
+          <div className="card h-full rounded-2xl p-6 sm:p-7">
+            <h3 className="font-mono text-xs tracking-[0.2em] text-dust uppercase">Recognition</h3>
+            <ul className="mt-6 divide-y divide-white/8">
+              {recognition.map((r) => (
+                <li key={r.title} className="flex items-baseline justify-between gap-6 py-3 first:pt-0 last:pb-0">
+                  <div>
+                    <div className="font-medium">{r.title}</div>
+                    <div className="text-sm text-dust">{r.by}</div>
+                  </div>
+                  <span className="font-mono text-xs text-dust">{r.year}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Reveal>
       </div>
-    </section>
+    </Section>
   );
 }

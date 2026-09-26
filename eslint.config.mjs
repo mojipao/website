@@ -5,11 +5,6 @@ import nextTs from "eslint-config-next/typescript";
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
-  {
-    // R3F scene objects are intentionally mutated every frame inside useFrame.
-    files: ["components/canvas/**/*.tsx"],
-    rules: { "react-hooks/immutability": "off" },
-  },
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:

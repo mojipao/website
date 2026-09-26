@@ -1,27 +1,29 @@
-import SceneLoader from "@/components/canvas/SceneLoader";
-import Nav from "@/components/ui/Nav";
-import DepthGauge from "@/components/ui/DepthGauge";
-import Hero from "@/components/sections/Hero";
-import Bio from "@/components/sections/Bio";
-import Experience from "@/components/sections/Experience";
-import Projects from "@/components/sections/Projects";
-import Education from "@/components/sections/Education";
+import Footer from "@/components/Footer";
+import Nav from "@/components/Nav";
+import Starfield from "@/components/Starfield";
+import About from "@/components/sections/About";
 import Contact from "@/components/sections/Contact";
+import Education from "@/components/sections/Education";
+import Experience from "@/components/sections/Experience";
+import Hero from "@/components/sections/Hero";
+import Projects from "@/components/sections/Projects";
+import Skills from "@/components/sections/Skills";
 
 export default function Home() {
   return (
     <>
-      <SceneLoader />
+      <Starfield />
       <Nav />
-      <DepthGauge />
-      <main className="relative">
+      <main>
         <Hero />
-        <Bio />
+        <About />
         <Experience />
         <Projects />
+        <Skills />
         <Education />
         <Contact />
       </main>
+      <Footer />
     </>
   );
 }

@@ -1,90 +1,49 @@
-"use client";
-
-import { useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
+import Reveal from "@/components/Reveal";
+import Section from "@/components/Section";
 import { experience } from "@/lib/content";
-import FadeUp from "@/components/ui/FadeUp";
-import ZoneLabel from "@/components/ui/ZoneLabel";
-
-gsap.registerPlugin(ScrollTrigger, useGSAP);
-
-const STACK_OFFSET = 28;
 
 export default function Experience() {
-  const section = useRef<HTMLElement>(null);
-
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        const cards = gsap.utils.toArray<HTMLElement>("[data-card]");
-        cards.forEach((card, i) => {
-          const next = cards[i + 1];
-          if (!next) return;
-          const scrollTrigger = {
-            trigger: next,
-            start: "top bottom",
-            end: () => `top ${window.innerHeight * 0.14 + (i + 1) * STACK_OFFSET}px`,
-            scrub: true,
-            invalidateOnRefresh: true,
-          };
-          gsap.to(card.querySelector("[data-dim]"), { opacity: 0.65, ease: "none", scrollTrigger });
-          gsap.to(card.firstElementChild, { scale: 0.92, ease: "none", scrollTrigger });
-        });
-      });
-    },
-    { scope: section },
-  );
-
   return (
-    <section ref={section} id="experience" data-zone className="relative px-6 pb-[30vh] pt-[20vh] sm:px-12">
-      <div className="mx-auto max-w-5xl">
-        <FadeUp className="mb-[18vh]">
-          <ZoneLabel zone="twilight" className="mb-8" />
-          <h2 className="text-glow text-[clamp(2.75rem,8vw,7rem)] font-semibold leading-[0.95] tracking-[-0.05em] text-white">
-            Where I&apos;ve
-            <br />
-            <span className="bg-linear-to-r from-cyan-200 via-sky-300 to-indigo-300 bg-clip-text text-transparent">
-              been.
-            </span>
-          </h2>
-        </FadeUp>
-
-        <div className="relative">
-          {experience.map((role, i) => (
-            <div
-              key={`${role.company}-${i}`}
-              data-card
-              className="sticky mb-[35vh] last:mb-0"
-              style={{ top: `calc(14vh + ${i * STACK_OFFSET}px)` }}
-            >
-              <article className="glass-card relative origin-top overflow-hidden rounded-[2rem] p-8 will-change-transform sm:p-12">
-                <div data-dim className="pointer-events-none absolute inset-0 z-10 bg-[#030a16] opacity-0" />
-                <div className="relative grid gap-8 md:grid-cols-[1fr_1.35fr] md:gap-14">
-                  <header>
-                    <p className="text-sm font-medium tracking-wide text-cyan-100/70">{role.period}</p>
-                    <h3 className="mt-3 text-3xl font-semibold leading-tight tracking-[-0.03em] text-white sm:text-4xl">
-                      {role.title}
-                    </h3>
-                    <p className="mt-2 text-lg font-medium text-sky-200">{role.company}</p>
-                    {role.location && <p className="mt-1 text-sm text-white/50">{role.location}</p>}
-                  </header>
-                  <ul className="space-y-5">
-                    {role.highlights.map((h) => (
-                      <li key={h} className="flex gap-4 text-base leading-relaxed text-white/80 sm:text-lg">
-                        <span className="mt-[0.6em] h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-200 shadow-[0_0_12px_rgba(165,243,252,0.9)]" />
-                        {h}
-                      </li>
-                    ))}
-                  </ul>
+    <Section id="experience" index="02" eyebrow="Experience" title="Where I've been.">
+      <ol className="relative border-l border-white/10 pl-8 sm:pl-12">
+        {experience.map((job, i) => (
+          <Reveal as="li" key={job.company} delay={i * 80} className="relative pb-14 last:pb-0">
+            {/* Orbit marker */}
+            <span
+              className="absolute top-1.5 -left-[calc(2rem+5px)] size-2.5 rounded-full bg-nebula-indigo shadow-[0_0_0_4px_var(--color-space-950),0_0_14px_var(--color-nebula-indigo)] sm:-left-[calc(3rem+5px)]"
+              aria-hidden
+            />
+            <div className="grid gap-4 sm:grid-cols-[10rem_1fr]">
+              <div className="font-mono text-xs leading-6 tracking-wide text-dust">
+                <div>{job.period}</div>
+                <div className="text-dust/70">{job.location}</div>
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold tracking-tight">
+                  {job.role}
+                  <span className="text-dust"> · {job.company}</span>
+                </h3>
+                <p className="mt-2 text-dust">{job.summary}</p>
+                <ul className="mt-4 space-y-2 text-[15px] leading-relaxed text-star/85">
+                  {job.highlights.map((h) => (
+                    <li key={h} className="flex gap-3">
+                      <span className="mt-2.5 size-1 shrink-0 rounded-full bg-dust" aria-hidden />
+                      {h}
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {job.tags.map((tag) => (
+                    <span key={tag} className="chip rounded-full px-2.5 py-1 font-mono text-[11px] text-dust">
+                      {tag}
+                    </span>
+                  ))}
                 </div>
-              </article>
+              </div>
             </div>
-          ))}
-        </div>
-      </div>
-    </section>
+          </Reveal>
+        ))}
+      </ol>
+    </Section>
   );
 }

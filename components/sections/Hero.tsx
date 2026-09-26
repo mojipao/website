@@ -1,87 +1,70 @@
-"use client";
-
-import { useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-import { profile } from "@/lib/content";
-
-gsap.registerPlugin(ScrollTrigger, useGSAP);
+import Planet from "@/components/Planet";
+import Reveal from "@/components/Reveal";
+import { links, profile } from "@/lib/content";
 
 export default function Hero() {
-  const section = useRef<HTMLElement>(null);
-
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap
-          .timeline({ defaults: { ease: "power3.out" } })
-          .from("[data-hero-eyebrow]", { opacity: 0, y: 16, duration: 1, delay: 0.3 })
-          .from(
-            "[data-char]",
-            { yPercent: 60, opacity: 0, filter: "blur(12px)", duration: 1.3, stagger: 0.035, clearProps: "filter" },
-            "<0.1",
-          )
-          .from("[data-hero-sub]", { opacity: 0, y: 24, filter: "blur(10px)", duration: 1.2 }, "-=0.8")
-          .from("[data-hero-cue]", { opacity: 0, duration: 1 }, "-=0.4");
-
-        gsap.to("[data-hero-content]", {
-          yPercent: -35,
-          scale: 0.9,
-          opacity: 0,
-          filter: "blur(12px)",
-          ease: "none",
-          scrollTrigger: { trigger: section.current, start: "top top", end: "bottom 20%", scrub: true },
-        });
-      });
-    },
-    { scope: section },
-  );
+  const linkedin = links.find((l) => l.label === "LinkedIn");
 
   return (
-    <section
-      ref={section}
-      id="top"
-      data-zone
-      className="relative flex h-svh items-end justify-center overflow-hidden px-6 pb-[7vh]"
-    >
-      <div data-hero-content className="flex flex-col items-center text-center will-change-transform">
-        <p data-hero-eyebrow className="mb-6 text-sm font-medium uppercase tracking-[0.35em] text-white/80">
-          {profile.role} · {profile.location}
-        </p>
-        <h1
-          aria-label={profile.name}
-          className="text-glow text-[clamp(3.5rem,min(13vw,17vh),11rem)] font-semibold leading-[0.92] tracking-[-0.055em] text-white"
-        >
-          {profile.name.split(" ").map((word, w) => (
-            <span key={w} className="inline-block whitespace-nowrap">
-              {word.split("").map((ch, c) => (
-                <span key={c} data-char aria-hidden className="inline-block">
-                  {ch}
-                </span>
-              ))}
-              {w < profile.name.split(" ").length - 1 && <span className="inline-block">&nbsp;</span>}
-            </span>
-          ))}
-          <span data-char aria-hidden className="inline-block text-cyan-200">.</span>
-        </h1>
-        <p
-          data-hero-sub
-          className="mt-8 max-w-xl text-balance text-lg font-medium text-white/85 sm:text-2xl sm:leading-snug"
-        >
-          {profile.tagline}
-        </p>
-        <div
-          data-hero-cue
-          className="mt-8 flex flex-col items-center gap-3 text-[11px] font-medium uppercase tracking-[0.3em] text-white/75"
-        >
-          Scroll to dive
-          <span className="relative block h-10 w-px overflow-hidden bg-white/20">
-            <span className="animate-dive-cue absolute inset-x-0 top-0 h-1/2 bg-white" />
-          </span>
+    <section id="top" className="relative flex min-h-svh items-center overflow-hidden pt-24 pb-16">
+      <div className="mx-auto grid w-full max-w-5xl items-center gap-12 px-6 lg:grid-cols-[1.15fr_0.85fr]">
+        <div>
+          <Reveal>
+            <p className="mb-6 flex items-center gap-3 font-mono text-xs tracking-[0.25em] text-dust uppercase">
+              <span className="inline-flex size-1.5 rounded-full bg-nebula-cyan shadow-[0_0_10px_var(--color-nebula-cyan)]" />
+              {profile.role} · {profile.location}
+            </p>
+          </Reveal>
+          <Reveal delay={80}>
+            <h1 className="text-5xl font-semibold tracking-[-0.03em] text-balance sm:text-6xl lg:text-7xl">
+              {profile.name}
+              <span className="text-gradient">.</span>
+            </h1>
+          </Reveal>
+          <Reveal delay={160}>
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-dust sm:text-xl">{profile.tagline}</p>
+          </Reveal>
+          <Reveal delay={240} className="mt-10 flex flex-wrap items-center gap-3">
+            <a
+              href="#contact"
+              className="inline-flex items-center gap-2 rounded-full bg-star px-5 py-2.5 text-sm font-medium text-space-950 transition-transform hover:-translate-y-0.5"
+            >
+              Get in touch
+            </a>
+            {linkedin && (
+              <a
+                href={linkedin.href}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-white/12 px-5 py-2.5 text-sm font-medium text-star transition-colors hover:border-white/30 hover:bg-white/5"
+              >
+                LinkedIn
+                <ArrowIcon />
+              </a>
+            )}
+          </Reveal>
         </div>
+
+        <Reveal delay={200} className="mx-auto w-full max-w-[340px] lg:max-w-none">
+          <Planet className="w-full" />
+        </Reveal>
       </div>
+
+      <a
+        href="#about"
+        className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 font-mono text-[10px] tracking-[0.3em] text-dust uppercase transition-colors hover:text-star sm:flex"
+      >
+        Scroll
+        <span className="h-8 w-px bg-linear-to-b from-dust to-transparent" aria-hidden />
+      </a>
     </section>
+  );
+}
+
+export function ArrowIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+      <path d="M7 17 17 7M8 7h9v9" />
+    </svg>
   );
 }

@@ -1,151 +1,144 @@
 /**
- * All site copy lives here. Replace the placeholders with real details;
- * no component changes are needed.
+ * All site copy lives here. Replace the placeholders with your own details;
+ * the components only read from this file.
  */
-
-export interface Role {
-  title: string;
-  company: string;
-  period: string;
-  location?: string;
-  highlights: string[];
-}
-
-export interface Project {
-  name: string;
-  tagline: string;
-  description: string;
-  tags: string[];
-  href?: string;
-}
-
-export interface Education {
-  school: string;
-  degree: string;
-  period: string;
-  detail?: string;
-}
-
-export interface Link {
-  label: string;
-  href: string;
-  handle: string;
-}
 
 export const profile = {
   name: "Your Name",
-  firstName: "Your",
   initials: "YN",
   role: "Software Engineer",
-  tagline: "Building thoughtful software, one layer deeper at a time.",
   location: "City, State",
-  bio: "I'm a placeholder bio. I love turning complex problems into simple, beautiful experiences. My work sits where engineering meets design, and I'm happiest when I'm exploring something I don't understand yet. Outside of work you'll find me reading, building side projects, and chasing the next good idea.",
-  stats: [
-    { value: "3+", label: "Years of experience" },
-    { value: "12", label: "Projects shipped" },
-    { value: "∞", label: "Curiosity" },
+  tagline: "Building thoughtful software with a focus on clarity, craft, and the people who use it.",
+  bio: [
+    "I'm a placeholder bio. I love turning complex problems into simple, well-made experiences, and my work sits where engineering meets design.",
+    "I'm happiest when I'm learning something I don't understand yet. Outside of work you'll find me reading, building side projects, and chasing the next good idea.",
   ],
+  facts: [
+    { label: "Based in", value: "City, State" },
+    { label: "Focus", value: "Full-stack & product engineering" },
+    { label: "Currently", value: "Open to new opportunities" },
+  ],
+  email: "you@example.com",
+  resumeUrl: "#",
 };
 
-export const experience: Role[] = [
+export const links = [
+  { label: "LinkedIn", href: "https://linkedin.com/in/your-handle" },
+  { label: "GitHub", href: "https://github.com/your-handle" },
+  { label: "Email", href: `mailto:${profile.email}` },
+];
+
+export interface Experience {
+  company: string;
+  role: string;
+  period: string;
+  location: string;
+  summary: string;
+  highlights: string[];
+  tags: string[];
+}
+
+export const experience: Experience[] = [
   {
-    title: "Senior Role Title",
     company: "Company One",
+    role: "Senior Role Title",
     period: "2024 — Present",
     location: "Remote",
+    summary: "One line on what the team does and what you own there.",
     highlights: [
-      "Led a placeholder initiative that improved a key metric by 40%.",
-      "Designed and shipped a system used by thousands of people daily.",
-      "Mentored engineers and set the bar for quality across the team.",
+      "Led a placeholder initiative that improved a key metric by X%.",
+      "Designed and shipped a system used by N teams across the company.",
+      "Mentored engineers and helped shape the team's technical direction.",
     ],
+    tags: ["TypeScript", "React", "Node.js", "PostgreSQL"],
   },
   {
-    title: "Role Title",
     company: "Company Two",
+    role: "Role Title",
     period: "2022 — 2024",
     location: "City, State",
+    summary: "One line on the product and your part in it.",
     highlights: [
-      "Built a placeholder product feature from zero to launch.",
-      "Cut page load times in half through a performance overhaul.",
-      "Partnered with design to create a new component library.",
+      "Built a placeholder feature end to end, from design through launch.",
+      "Reduced build or response times by X% through targeted optimization.",
+      "Collaborated closely with design and product on roadmap and scope.",
     ],
+    tags: ["Python", "Django", "AWS"],
   },
   {
-    title: "Intern Title",
     company: "Company Three",
-    period: "Summer 2021",
+    role: "Junior Role Title",
+    period: "2020 — 2022",
     location: "City, State",
+    summary: "Where it started.",
     highlights: [
-      "Prototyped an internal tool adopted by the wider org.",
-      "Automated a manual workflow, saving hours every week.",
-      "Presented results to leadership at the end of the internship.",
+      "Shipped features across a placeholder web application.",
+      "Wrote tests, fixed bugs, and learned how real software gets made.",
     ],
+    tags: ["JavaScript", "Vue", "MySQL"],
   },
 ];
+
+export interface Project {
+  name: string;
+  description: string;
+  tags: string[];
+  href: string;
+  year: string;
+  featured?: boolean;
+}
 
 export const projects: Project[] = [
   {
     name: "Project Aurora",
-    tagline: "A placeholder flagship project.",
-    description: "Short description of what this project does, the problem it solves, and what makes it interesting.",
-    tags: ["TypeScript", "React", "WebGL"],
+    description:
+      "A placeholder flagship project. Short description of what it does, the problem it solves, and what makes it interesting.",
+    tags: ["TypeScript", "React", "Design systems"],
     href: "#",
+    year: "2025",
+    featured: true,
   },
   {
-    name: "Project Tide",
-    tagline: "Something useful, beautifully made.",
-    description: "Short description of the project. Mention the impact, the users, or a clever technical detail.",
-    tags: ["Python", "ML", "APIs"],
+    name: "Project Kepler",
+    description: "Something you built to scratch an itch. What it does and who it's for.",
+    tags: ["Python", "FastAPI", "Data"],
     href: "#",
+    year: "2024",
   },
   {
-    name: "Project Abyss",
-    tagline: "An experiment that went deep.",
-    description: "Short description of the project. What you learned, what you built, and why it matters.",
-    tags: ["Rust", "Systems"],
+    name: "Project Halo",
+    description: "A tool, a library, or an experiment. One or two sentences.",
+    tags: ["Go", "CLI"],
     href: "#",
+    year: "2024",
   },
   {
-    name: "Project Current",
-    tagline: "Small tool, big difference.",
-    description: "Short description of the project. Keep it to one or two sentences for the cleanest look.",
-    tags: ["Next.js", "Design"],
+    name: "Project Orbit",
+    description: "A collaboration, a hackathon win, or an open-source contribution.",
+    tags: ["Next.js", "Open source"],
     href: "#",
+    year: "2023",
   },
 ];
 
-export const skills: string[] = [
-  "TypeScript",
-  "React",
-  "Next.js",
-  "Node.js",
-  "Python",
-  "Three.js",
-  "SQL",
-  "AWS",
-  "Figma",
-  "System Design",
-  "Git",
-  "Tailwind CSS",
+export const skills: { group: string; items: string[] }[] = [
+  { group: "Languages", items: ["TypeScript", "Python", "Go", "SQL"] },
+  { group: "Frontend", items: ["React", "Next.js", "Tailwind CSS", "Accessibility"] },
+  { group: "Backend", items: ["Node.js", "PostgreSQL", "Redis", "REST & GraphQL"] },
+  { group: "Tooling", items: ["AWS", "Docker", "CI/CD", "Observability"] },
 ];
 
-export const education: Education[] = [
+export const education = [
   {
     school: "University Name",
-    degree: "B.S. in Your Major",
-    period: "2018 — 2022",
-    detail: "Minor, honors, or relevant coursework goes here.",
+    degree: "B.S. in Computer Science",
+    period: "2016 — 2020",
+    note: "Placeholder honors, thesis, or a favorite course.",
   },
 ];
 
-export const awards: { title: string; detail: string }[] = [
-  { title: "Award or Certification", detail: "Issuer · Year" },
-  { title: "Hackathon Winner", detail: "Event Name · Year" },
-  { title: "Dean's List", detail: "University Name · Years" },
-];
-
-export const links: Link[] = [
-  { label: "LinkedIn", href: "https://www.linkedin.com/in/your-handle", handle: "in/your-handle" },
-  { label: "Email", href: "mailto:you@example.com", handle: "you@example.com" },
-  { label: "GitHub", href: "https://github.com/your-handle", handle: "@your-handle" },
+export const recognition = [
+  { title: "Placeholder Award", by: "Organization", year: "2024" },
+  { title: "Speaker, Placeholder Conference", by: "Talk title goes here", year: "2023" },
+  { title: "Certification Name", by: "Issuing body", year: "2022" },
 ];

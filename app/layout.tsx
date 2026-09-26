@@ -1,28 +1,20 @@
-import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
-import ScrollProvider from "@/components/ScrollProvider";
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
 import { profile } from "@/lib/content";
-import "lenis/dist/lenis.css";
 import "./globals.css";
 
-const inter = Inter({ variable: "--font-inter", subsets: ["latin"], display: "swap" });
-const mono = JetBrains_Mono({ variable: "--font-mono-face", subsets: ["latin"], display: "swap" });
+const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
+const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: `${profile.name} · ${profile.role}`,
+  title: `${profile.name} — ${profile.role}`,
   description: profile.tagline,
 };
 
-export const viewport: Viewport = {
-  themeColor: "#3cc7e6",
-};
-
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${mono.variable} antialiased`}>
-      <body>
-        <ScrollProvider>{children}</ScrollProvider>
-      </body>
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className="nebula min-h-svh">{children}</body>
     </html>
   );
 }
