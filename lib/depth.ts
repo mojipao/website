@@ -7,6 +7,29 @@ export const ZONE_SPACING = 60;
 
 export const ZONE_COUNT = 6;
 
+/** World-space height of the ocean surface. */
+export const SURFACE_Y = 14;
+
+/** Camera height in the hero, standing just above the water. */
+const ABOVE_WATER_Y = SURFACE_Y + 5;
+
+/** Zone value where the plunge through the surface blends into the steady descent. */
+const PLUNGE_END = 0.45;
+
+/**
+ * Camera height for a zone position. Starts above the surface and eases into
+ * the linear descent with a matching slope (cubic Hermite), so there's no jolt.
+ */
+export function cameraYForZone(z: number): number {
+  if (z >= PLUNGE_END) return -z * ZONE_SPACING;
+  const t = Math.max(z, 0) / PLUNGE_END;
+  const t2 = t * t;
+  const t3 = t2 * t;
+  const endY = -PLUNGE_END * ZONE_SPACING;
+  const endSlope = -PLUNGE_END * ZONE_SPACING;
+  return (2 * t3 - 3 * t2 + 1) * ABOVE_WATER_Y + (-2 * t3 + 3 * t2) * endY + (t3 - t2) * endSlope;
+}
+
 export type ZoneId = "surface" | "sunlight" | "twilight" | "midnight" | "abyss" | "hadal";
 
 export interface Zone {

@@ -4,7 +4,7 @@ import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { AdditiveBlending, DoubleSide, ShaderMaterial, type Group } from "three";
 import { seeded } from "@/lib/random";
-import { SURFACE_Y } from "./Surface";
+import { SURFACE_Y } from "@/lib/depth";
 import { diveFrame } from "./diveFrame";
 
 const vertexShader = /* glsl */ `
@@ -21,8 +21,10 @@ uniform float uOpacity;
 uniform float uSeed;
 varying vec2 vUv;
 void main() {
-  float edge = pow(sin(vUv.x * 3.14159), 2.5);
-  float fall = pow(vUv.y, 1.8);
+  // Clamp: multisampled edge fragments extrapolate uv slightly outside 0..1, and pow() of a negative is NaN.
+  vec2 uv = clamp(vUv, 0.0, 1.0);
+  float edge = pow(sin(uv.x * 3.14159), 2.5);
+  float fall = pow(uv.y, 1.8);
   float flicker = 0.65 + 0.35 * sin(uTime * 0.6 + uSeed * 12.0 + vUv.y * 3.0);
   float a = edge * fall * flicker * uOpacity;
   gl_FragColor = vec4(vec3(0.75, 0.97, 1.0) * a, a);
@@ -55,10 +57,10 @@ export default function GodRays({ count = 12 }: { count?: number }) {
 
   useFrame(() => {
     if (!group.current) return;
-    const visible = diveFrame.sunlight > 0.01;
+    const visible = diveFrame.sunlight > 0.01 && diveFrame.above < 0.5;
     group.current.visible = visible;
     if (!visible) return;
-    group.current.position.y = diveFrame.cameraY * 0.8;
+    group.current.position.y = Math.min(diveFrame.cameraY, 0) * 0.8;
     for (const r of rays) {
       r.material.uniforms.uTime.value = diveFrame.time;
       r.material.uniforms.uOpacity.value = diveFrame.sunlight * 0.32;

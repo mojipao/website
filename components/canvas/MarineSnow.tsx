@@ -87,7 +87,8 @@ export default function MarineSnow({ count = 2000 }: { count?: number }) {
 
   useFrame(({ camera }) => {
     const mat = points.current?.material as ShaderMaterial | undefined;
-    if (!mat) return;
+    if (!mat || !points.current) return;
+    points.current.visible = diveFrame.above < 0.5;
     mat.uniforms.uTime.value = diveFrame.time;
     mat.uniforms.uCamera.value.copy(camera.position);
     mat.uniforms.uPixelRatio.value = dpr;

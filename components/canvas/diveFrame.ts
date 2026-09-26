@@ -7,6 +7,8 @@ export const diveFrame = {
   zone: 0,
   depth: 0,
   cameraY: 0,
+  /** 1 while the camera is above the waterline, 0 once submerged. */
+  above: 1,
   sunlight: 1,
   biolum: 0,
   time: 0,

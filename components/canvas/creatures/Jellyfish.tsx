@@ -53,7 +53,7 @@ varying vec3 vViewDir;
 varying float vHeight;
 
 void main() {
-  float fres = pow(1.0 - abs(dot(normalize(vNormalV), vViewDir)), 2.2);
+  float fres = pow(clamp(1.0 - abs(dot(normalize(vNormalV), vViewDir)), 0.0, 1.0), 2.2);
   vec3 col = mix(uColor * 0.5, uRimColor * 2.6, fres);
   col += uColor * smoothstep(0.55, 0.95, vHeight) * 1.2;
   float a = (0.14 + fres * 0.9) * uGlow;

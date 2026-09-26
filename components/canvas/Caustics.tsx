@@ -40,7 +40,7 @@ export default function Caustics() {
 
   useFrame(({ camera }) => {
     if (!mesh.current) return;
-    const visible = diveFrame.sunlight > 0.01;
+    const visible = diveFrame.sunlight > 0.01 && diveFrame.above < 0.5;
     mesh.current.visible = visible;
     if (!visible) return;
     mesh.current.position.copy(camera.position);

@@ -44,7 +44,7 @@ export default function Hero() {
       ref={section}
       id="top"
       data-zone
-      className="relative flex h-svh items-center justify-center overflow-hidden px-6"
+      className="relative flex h-svh items-end justify-center overflow-hidden px-6 pb-[7vh]"
     >
       <div data-hero-content className="flex flex-col items-center text-center will-change-transform">
         <p data-hero-eyebrow className="mb-6 text-sm font-medium uppercase tracking-[0.35em] text-white/80">
@@ -52,7 +52,7 @@ export default function Hero() {
         </p>
         <h1
           aria-label={profile.name}
-          className="text-glow text-[clamp(3.5rem,13vw,11rem)] font-semibold leading-[0.92] tracking-[-0.055em] text-white"
+          className="text-glow text-[clamp(3.5rem,min(13vw,17vh),11rem)] font-semibold leading-[0.92] tracking-[-0.055em] text-white"
         >
           {profile.name.split(" ").map((word, w) => (
             <span key={w} className="inline-block whitespace-nowrap">
@@ -72,16 +72,15 @@ export default function Hero() {
         >
           {profile.tagline}
         </p>
-      </div>
-
-      <div
-        data-hero-cue
-        className="absolute bottom-20 left-1/2 md:bottom-10 flex -translate-x-1/2 flex-col items-center gap-3 text-[11px] font-medium uppercase tracking-[0.3em] text-white/75"
-      >
-        Scroll to dive
-        <span className="relative block h-14 w-px overflow-hidden bg-white/20">
-          <span className="animate-dive-cue absolute inset-x-0 top-0 h-1/2 bg-white" />
-        </span>
+        <div
+          data-hero-cue
+          className="mt-8 flex flex-col items-center gap-3 text-[11px] font-medium uppercase tracking-[0.3em] text-white/75"
+        >
+          Scroll to dive
+          <span className="relative block h-10 w-px overflow-hidden bg-white/20">
+            <span className="animate-dive-cue absolute inset-x-0 top-0 h-1/2 bg-white" />
+          </span>
+        </div>
       </div>
     </section>
   );
